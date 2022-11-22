@@ -1,0 +1,51 @@
+POSTGRESQL
+
+# psql -U postgres -  выполнить подключение к базе данных Постгре SQL
+# \l - получить список баз данных сервера
+# \с dbname - выбрать базу данных
+# \dt - список таблиц в текущей базе данных PostgreSQL
+# \d table - Структура таблицы table
+# \a - Переключение между режимами вывода
+# \di - Индексы
+# \dv - Представления
+# \ds - Последовательности
+# \dS - Системные таблицы
+# \i - Чтение входящих данных из файла
+# \o - Вывод результатов запроса в файл
+# \pset - Настройка параметров форматирования
+# \echo - Вывод сообщений
+# \set - Установка переменных среды
+# \? - Справочник psql
+# \help - Справка команд SQL
+# \q - Выход из консоли
+
+Чтобы удалить все таблицы, в командной строке сервера вводим команду:
+# psql -U postgresql-user -d postgresql-db -f /tmp/droptables
+
+Снятие дампа БД PostgreSQL:
+# pg_dump -c -h localhost -U myuser mydatabase > ./mydump.sql
+
+Вот тот же вариант с IP вместо имени хоста:
+# pg_dump -c -h 192.168.0.1 -U myuser mydatabase > ./dump.sql
+
+Создание резервной копии с сжатием в gz:
+# pg_dump -h localhost -O -F p -c -U myuser mydatabase | gzip -c > mydb.gz
+
+Дамп данных только одной, конкретной таблицы:
+# pg_dump -h localhost -U myuser -F c -b -v -t *pay* -f pay_tables.backup mydb
+
+Если нужно создать резервную копию нескольких таблиц, то имена этих таблиц перечисляются с помощью ключа -t для каждой таблицы:
+# pg_dump -a -t table_name -f file_name database_name
+
+Восстановление из резервной копии:
+# cat dump.sql | psql -h localhost mydatabase myuser
+
+Импорт в PostgreSQL делается следующим образом:
+# psql -h localhost -U username dbname < dump.sql
+
+Конфигурационные файлы PostgreSQL находятся в:
+# mcedit /var/lib/postgresql/8.4/data/postgresql.conf
+# mcedit /var/lib/postgresql/8.4/data/pg_hba.conf
+
+
+
