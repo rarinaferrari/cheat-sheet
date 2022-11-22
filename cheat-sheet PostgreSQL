@@ -39,13 +39,16 @@ POSTGRESQL
 
 Восстановление из резервной копии:
 # cat dump.sql | psql -h localhost mydatabase myuser
+or
+# createdb dbNameTest ; pg_dump -s -F c dbName | pg_restore -s -c -d dbNameTest
+
 
 Импорт в PostgreSQL делается следующим образом:
 # psql -h localhost -U username dbname < dump.sql
 
 Конфигурационные файлы PostgreSQL находятся в:
-# mcedit /var/lib/postgresql/8.4/data/postgresql.conf
-# mcedit /var/lib/postgresql/8.4/data/pg_hba.conf
+# vim /var/lib/postgresql/8.4/data/postgresql.conf
+# vim /var/lib/postgresql/8.4/data/pg_hba.conf
 
 
 
@@ -57,6 +60,20 @@ psql -U taiga <<EOF> /tmp/file
 > select * from users_user where full_name ~ 'test';
 > select * from users_user where username ~ 'astankevich';
 > EOF
+
+Вытащить конкретные столбцы из таблицы:
+# select username,full_name from users_user;
+
+Добавить строку в таблицу:
+taiga=> insert into users_user (max_public_projects, max_private_projects) values (0, 0);
+
+Обновить стоблец в таблице:
+taiga=> UPDATE users_user SET max_private_projects = 0;
+taiga=> UPDATE users_user SET max_public_projects = 0 WHERE max_public_projects = 1;
+taiga=> UPDATE users_user SET max_private_projects = null WHERE username = 'admin';
+
+
+
 
 
 
