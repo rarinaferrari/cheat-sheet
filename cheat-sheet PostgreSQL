@@ -49,3 +49,13 @@ POSTGRESQL
 
 
 
+Примеры команд:
+
+Вытащить нужные данные в файл:
+psql -U taiga <<EOF>> /tmp/file
+> \c taiga
+> select * from users_user where full_name ~ 'astankevich';
+> EOF
+
+
+
