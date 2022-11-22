@@ -54,7 +54,8 @@ POSTGRESQL
 Вытащить нужные данные в файл:
 psql -U taiga <<EOF>> /tmp/file
 > \c taiga
-> select * from users_user where full_name ~ 'astankevich';
+> select * from users_user where full_name ~ 'test';
+> select * from users_user where username ~ 'astankevich';
 > EOF
 
 
