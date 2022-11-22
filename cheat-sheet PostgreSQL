@@ -72,6 +72,9 @@ taiga=> UPDATE users_user SET max_private_projects = 0;
 taiga=> UPDATE users_user SET max_public_projects = 0 WHERE max_public_projects = 1;
 taiga=> UPDATE users_user SET max_private_projects = null WHERE username = 'admin';
 
+Создать пользователя и базу:
+createuser -U postgres gitea --interactive --pwprompt
+createdb -U gitea gitea -O gitea
 
 
 
