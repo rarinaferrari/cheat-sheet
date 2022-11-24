@@ -76,6 +76,8 @@ taiga=> UPDATE users_user SET max_private_projects = null WHERE username = 'admi
 createuser -U postgres gitea --interactive --pwprompt
 createdb -U gitea gitea -O gitea
 
+?Выдернуть первичные ключи
+taiga=> select distinct table_name,column_name from information_schema.key_column_usage;
 
 
 
