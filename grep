@@ -50,3 +50,17 @@ astankevich@pc285.spb ~ $ ls /usr/sbin/[[:upper:]]*
 EGREP
 egrep = grep -E - расширенные регулярные выражения(BRE - basic, ERE - extended)
 
+Чередование:
+
+```
+astankevich@pc285.spb ~ $ echo "AAA" | grep AAA
+AAA
+astankevich@pc285.spb ~ $ echo "BBB" | grep AAA
+astankevich@pc285.spb ~ $ echo "AAA" | grep -E 'AAA|BBB'
+AAA
+astankevich@pc285.spb ~ $ echo "BBB" | grep -E 'AAA|BBB'
+BBB
+astankevich@pc285.spb ~ $ echo "CCC" | grep -E 'AAA|BBB'
+astankevich@pc285.spb ~ $
+
+```
