@@ -47,4 +47,6 @@ astankevich@pc285.spb ~ $ ls /usr/sbin/[[:upper:]]*
 /usr/sbin/ModemManager  /usr/sbin/NetworkManager
 ```
 
+EGREP
+egrep = grep -E - расширенные регулярные выражения(BRE - basic, ERE - extended)
 
