@@ -45,7 +45,6 @@ Example:
 ```
 astankevich@pc285.spb ~ $ ls /usr/sbin/[[:upper:]]*
 /usr/sbin/ModemManager  /usr/sbin/NetworkManager
-
 ```
 
 
