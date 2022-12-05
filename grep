@@ -51,6 +51,7 @@ EGREP
 egrep = grep -E - расширенные регулярные выражения(BRE - basic, ERE - extended)
 
 Чередование:
+Регулярное выражение 'AAA|BBB' означает совпадение со строкой ААА или со строкой ВВВ
 
 ```
 astankevich@pc285.spb ~ $ echo "AAA" | grep AAA
@@ -62,5 +63,24 @@ astankevich@pc285.spb ~ $ echo "BBB" | grep -E 'AAA|BBB'
 BBB
 astankevich@pc285.spb ~ $ echo "CCC" | grep -E 'AAA|BBB'
 astankevich@pc285.spb ~ $
+
+```
+grep -Eh '^(bz|gz|zip)' file.txt - для объединения с другими элементами регулярного выражения чередование можно заключать в скобки(). 
+Этому выражению будут соответствовать имена файлов из наших списков, начинающиеся с bz, gz или zip.
+
+grep -Eh '^bz|gz|zip' file.txt - будут соответствовать имена, начинающиеся с bz,gz или zip
+
+```
+astankevich@pc285.spb ~ $ ls /usr/bin/* | grep -Eh '^bz|gz|zip'
+/usr/bin/bzip2recover
+/usr/bin/funzip
+/usr/bin/gzexe
+/usr/bin/hunzip
+/usr/bin/hzip
+/usr/bin/lbunzip2
+/usr/bin/lbzip2
+/usr/bin/mzip
+/usr/bin/p7zip
+/usr/bin/pigz
 
 ```
