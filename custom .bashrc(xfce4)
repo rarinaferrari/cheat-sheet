@@ -1,0 +1,66 @@
+
+#
+# Fallback prompt
+#
+
+
+PS1='\u@\h \W\$ '
+
+PROMPT_COMMAND=__UPDATE_PROMPT
+
+#
+# Prompt palete
+#
+#   0  Success color
+#   1  Failed color
+#   2  Return color
+#   3  Muted color
+#   4  User fg color
+#   5  User bg color
+#   6  Host fg color
+#   7  Host bg color
+#   8  CWD fg color
+#   9  CWD bg color
+#  10  RootUser fg color
+#  11  RootUser bg color
+#
+#
+#                 0   1   2   3   4   5   6   7   8   9  10  11
+PROMPT_PALETTE=( 32 196   7 238 255  60 232  66 232 208 255 196 )
+PROMPT_PALETTE=( 32 196   7 238 232  38 255  32 255  24 255 196 )
+PROMPT_PALETTE=( 32 196   7 238 232 225 232  77 232 227 '231;1' 196 )
+# PROMPT_PALETTE=( 32 196   7 238 232  38 255  32 255  24 255 196 )
+
+__UPDATE_PROMPT(){
+    local _R=$? PP=( ${PROMPT_PALETTE[*]} )
+  { [[ -v MC_SID ]] || [[ $TERM == linux ]];} && return
+  RE='\[\e[0m\]'  BO='\[\e[1m\]'  INV='\[\e[7m\]' NL='\\n' 
+  FG='\[\e[38;5;' BG='\[\e[48;5;' M='m\]'
+  OK=$RE$FG${PP[0]:-32}$M"\\xe2\\x9c\\x85"$RE$NL
+  ER='\[\e[$(($COLUMNS-5))G\]'$FG${PP[2]:-7}$M$(printf %3d\  $_R)
+  ED=$RE$FG${PP[1]:-196}$M"\\xe2\\x9c\\x95"$RE$NL
+  OF='\[\e[1A\]\[\e[$(($COLUMNS-1))G\]' DT='\D{%Y-%m-%dT%H:%M:%S%z}' 
+  AL="\\xee\\x82\\xb2" AR="\\xee\\x82\\xb0" DO='\[\e[$(($COLUMNS-27))G\]'
+  DE=$DO$FG${PP[3]:-238}$M'E: '$DT$RE$NL
+  DS=$DO$FG${PP[3]:-238}$M'S: '$DT$RE$NL
+  [[ $_R -eq 0 ]] && RL=$OF$OK || RL=$OF$ER$ED
+  [[ $UID -eq 0 ]] && { UB="${PP[11]:-196}"; UF="${PP[10]:-255}"; } ||
+      { UB="${PP[5]:-60}"; UF="${PP[4]:-255}"; }
+  UL=$BG$UB$M$FG$UF$M' $USER '$FG$UB$M
+  HL=$BG${PP[7]:-66}$M$AR$FG${PP[6]:-232}$M' $HOSTNAME '$FG${PP[7]:-66}$M
+  PL=$BG${PP[9]:-208}$M$AR$FG${PP[8]:-232}$M$BO' $CWD '$RE$FG${PP[9]:-208}$M
+  CWD=`pwd` USER=`whoami` HOSTNAME=`hostname`
+  [[ ${#CWD} -ge ${#HOME} ]] && [[ $HOME == ${CWD:0:${#HOME}} ]] &&
+    [[ ${#HOME} -gt 1 ]] && CWD=\~${CWD:${#HOME}}
+  [[ -z $COLUMNS ]] && PS1=$UL$HL$PL$AR$RE\  && PS0= && return
+  THIRD=$(echo "$COLUMNS/3" | bc) DL="\\xe2\\x80\\xa6"
+  PS2=$(echo -e $FG$UB$M$INV$AL$RE\ )
+  [[ $(echo " $USER  $HOSTNAME  $CWD  " | wc -c) -gt $THIRD ]] &&
+    HL='' && [[ $(echo " $USER  $CWD  " | wc -c) -gt $THIRD ]] &&
+    UL=$FG$UB$M && [[ $(echo "  $CWD  " | wc -c) -gt $THIRD ]] &&
+    CWD=$(echo $CWD | perl -pe 's/([^\/]{2})[^\/]{2,9}[\/]/\1'$DL'\//g') &&
+    PS2=$(echo -e $FG${PP[9]:-208}$M$INV$AL$RE)
+  PS1=$(echo -e $RL$DE$UL$HL$PL$AR$RE\ )
+  PS0=$(echo -e $DS$RE )  
+  export CWD USER HOSTNAME
+}
