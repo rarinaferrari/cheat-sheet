@@ -1,0 +1,39 @@
+= Export Gnome Terminal Profile
+
+List profiles
+
+....
+dconf dump /org/gnome/terminal/legacy/profiles:/
+....
+
+Determine the terminal profile string for the profile you will need. This is the terminal profile that I will export:
+
+....
+[:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+foreground-color='rgb(170,170,170)'
+visible-name='Default'
+default-size-columns=120
+default-size-rows=35
+use-system-font=false
+use-theme-colors=false
+font='Monospace 10'
+background-color='rgb(0,0,0)'
+....
+
+And the string that I will need to use to export is
+
+....
+:b1dcc9dd-5262-4d8d-a863-c897e6d979b9
+....
+
+The command to export that profile is (note the ending slash)
+
+....
+dconf dump /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ > suse12default-theme-profile.dconf
+....
+
+To restore the profile
+
+....
+dconf load /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ < suse12default-theme-profile.dconf
+....
