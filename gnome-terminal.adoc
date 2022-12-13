@@ -4,6 +4,7 @@ List profiles
 
 ....
 dconf dump /org/gnome/terminal/legacy/profiles:/
+dconf list /org/gnome/terminal/legacy/profiles:/
 ....
 
 Determine the terminal profile string for the profile you will need. This is the terminal profile that I will export:
