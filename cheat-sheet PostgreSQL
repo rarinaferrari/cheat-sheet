@@ -86,5 +86,16 @@ SELECT  pid,  now() - pg_stat_activity.query_start AS duration,  query,  state F
 Блокировки: (если в ps ax | grep postgres  есть процессы со статусом waiting)
 postgres=# select pg_class.relname, pg_locks.locktype, pg_locks.database, pg_locks.relation, pg_locks.virtualtransaction, pg_locks.pid, pg_locks.mode, pg_locks.granted from pg_class, pg_locks where pg_class.relfilenode = pg_locks.relation order by pg_class.relname;
 
+Ошибка postgres:
+pg_dump: Dumping the contents of table "django_session" failed: PQgetResult() failed.
+pg_dump: Error message from server: ERROR:  missing chunk number 0 for toast value 1821959 in pg_toast_1231712
+pg_dump: The command was: COPY public.django_session (session_key, session_data, expire_date) TO stdout;
+pg_dumpall: pg_dump failed on database "acoolaru", exiting
 
+Постгресу не хватило 90 сек, чтобы завершить транзакции и БД развалилась.
+Что делали:
+\с acoolaru
+vacuum full verbose;
+delete from public.bbs_annup where id in (select id from public.bbs_annup where xmin=357001997);
 
+И так далее, каждый xmin в таблицах
