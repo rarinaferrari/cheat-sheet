@@ -79,9 +79,20 @@ createdb -U gitea gitea -O gitea
 ?Выдернуть первичные ключи
 taiga=> select distinct table_name,column_name from information_schema.key_column_usage;
 
+TAIGA: (меняем статусы на кириллицу)
+taiga=# select * from projects_userstorystatus where project_id = 40;
+taiga=# update projects_userstorystatus set name='Новая' where id = 243;
+UPDATE 1
+taiga=# update projects_userstorystatus set name='Завершена' where id = 247;
+UPDATE 1
+taiga=# update projects_userstorystatus set name='В процессе' where id = 245;
+UPDATE 1
+taiga=# update projects_userstorystatus set name='Можно проверять' where id = 246;
+UPDATE 1
+
+
 Подвисшие запросы:
 SELECT  pid,  now() - pg_stat_activity.query_start AS duration,  query,  state FROM pg_stat_activity WHERE (now() - pg_stat_activity.query_start) > interval '4 hour';
-
 
 Блокировки: (если в ps ax | grep postgres  есть процессы со статусом waiting)
 postgres=# select pg_class.relname, pg_locks.locktype, pg_locks.database, pg_locks.relation, pg_locks.virtualtransaction, pg_locks.pid, pg_locks.mode, pg_locks.granted from pg_class, pg_locks where pg_class.relfilenode = pg_locks.relation order by pg_class.relname;
@@ -99,3 +110,5 @@ vacuum full verbose;
 delete from public.bbs_annup where id in (select id from public.bbs_annup where xmin=357001997); # id - это название столбца в таблице, в другой таблице соответственно будет другое название
 
 И так далее, каждый xmin в таблицах
+
+После этого получилось у Олега получилось сделать дамп базы, создать новую, залить туда данные, переименовать дамп в боевую.
