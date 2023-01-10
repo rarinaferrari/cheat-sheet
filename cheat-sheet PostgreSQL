@@ -96,6 +96,6 @@ pg_dumpall: pg_dump failed on database "acoolaru", exiting
 Что делали:
 \с acoolaru
 vacuum full verbose;
-delete from public.bbs_annup where id in (select id from public.bbs_annup where xmin=357001997);
+delete from public.bbs_annup where id in (select id from public.bbs_annup where xmin=357001997); # id - это название столбца в таблице, в другой таблице соответственно будет другое название
 
 И так далее, каждый xmin в таблицах
