@@ -79,7 +79,10 @@ createdb -U gitea gitea -O gitea
 ?Выдернуть первичные ключи
 taiga=> select distinct table_name,column_name from information_schema.key_column_usage;
 
+
+
 TAIGA: (меняем статусы на кириллицу)
+
 taiga=# select * from projects_userstorystatus where project_id = 40;
 taiga=# update projects_userstorystatus set name='Новая' where id = 243;
 UPDATE 1
@@ -89,6 +92,10 @@ taiga=# update projects_userstorystatus set name='В процессе' where id 
 UPDATE 1
 taiga=# update projects_userstorystatus set name='Можно проверять' where id = 246;
 UPDATE 1
+Альтернатива:
+update projects_userstorystatus set name='Можно проверять' where slug='ready-for-test';
+
+
 
 
 Подвисшие запросы:
