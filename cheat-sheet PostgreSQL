@@ -41,6 +41,9 @@ POSTGRESQL
 # cat dump.sql | psql -h localhost mydatabase myuser
 or
 # createdb dbNameTest ; pg_dump -s -F c dbName | pg_restore -s -c -d dbNameTest
+or (nexcloud)
+pg_dumpall > dump
+psql -U postgres nextcloud < dump 
 
 
 Импорт в PostgreSQL делается следующим образом:
