@@ -95,12 +95,21 @@ Hello Andrey
 
 Интерфейсы
 ```
+package main
+
+import "fmt"
+
 type Person struct {
 	Name string
 	Age  int
 }
 type Friend interface {
 	SayHello()
+}
+type Dog struct{}
+
+func (d *Dog) SayHello() {
+	fmt.Println("Woof woof")
 }
 
 func (p *Person) SayHello() {
@@ -110,11 +119,15 @@ func (p *Person) SayHello() {
 func Greet(f Friend) {
 	f.SayHello()
 }
+
 func main() {
 	var guy = new(Person)
 	guy.Name = "Andrey"
 	Greet(guy)
+	var dog = new(Dog)
+	Greet(dog)
 }
+
 ```
 
 
