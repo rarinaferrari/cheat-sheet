@@ -130,7 +130,81 @@ func main() {
 
 ```
 
+### Управляющие конструкции
+
+```
+func main() {
+	x := "hello"
+	switch x {
+	case "foo":
+		fmt.Println("Found foo")
+	case "bar":
+		fmt.Println("Found bar")
+	default:
+		fmt.Println("Default case")
+	}
+}
 
 
+func main() {
+	var x = 10
+
+	if x == 10 {
+		fmt.Println("x is equal 10")
+	} else {
+		fmt.Println("x is not equal 10")
+	}
+}
+```
+
+Type switch
+```
+func foo(i interface{}) {
+	switch v := i.(type) {
+	case int:
+		fmt.Println("I`m an integer!", v)
+	case string:
+		fmt.Println("I`m a string!", v)
+	default:
+		fmt.Println("Unknown type!", v)
+	}
+}
+func main() {
+	foo(42)
+	foo("hello world")
+}
+
+$ go run test.go 
+I`m an integer! 42
+I`m a string! hello world
+```
+Type switch выполняет утверждение типов с помощью инструкции `switch`. Здесь представлен специальный синтаксис, `i.(type)` позволяющий извлечь тип переменной интерфейса i.
+
+Циклы
+
+```
+func main() {
+	for i := 0; i < 10; i++ {
+		fmt.Println(i)
+	}
+}
+```
+Обратите внимание на `;` в первой строке. В отличие от многих языков, где этот знак используется в качестве разделителя строк, в Go он применяется в различных управляющих конструкциях для выполнения разных, но связанных подзадач в одной строке кода. Первая строка с помощью этого знака разделяет логику инициализации (i:=0), условное выражение (i<10) и оператор увеличения (i++).
+
+```
+func main() {
+	nums := []int{2, 4, 6, 8}
+	for idx, val := range nums {
+		fmt.Println(idx, val)
+	}
+}
+
+$ go run test.go 
+0 2
+1 4
+2 6
+3 8
+```
+Здесь мы инициализируем срез целых чисел `nums`, затем используем в цикле for ключевое слово range для перебора этого среза, range возвращает два значения: текущий индекс и копию текущего значения по этому индексу.
 
 
